@@ -9,6 +9,7 @@ class Play extends Phaser.Scene {
 
     create() {
         console.log("play scene")
+
         //key binds
         cursors = this.input.keyboard.createCursorKeys()
 
@@ -24,15 +25,33 @@ class Play extends Phaser.Scene {
         //create group
         let bounds = [this.side1, this.side2]
         
-        //player spritedad
+        //player sprite
         this.cowboy = new Player(this, game.config.height / 2, (3* game.config.width / 4), 'cowboy', 0).setOrigin(0.5, 0)
         this.cowboy.setScale(2.5)
         this.cowboy.body.setAllowDrag(true)
         this.cowboy.body.setDragX(1000)
 
-        //add collider
+        //group enemies for collider
+        this.enemyGroup = this.add.group({
+            runChildUpdate: true  //run updates on all enemies
+        })
+
+        //enemy riders
+        this.time.delayedCall(2000, () => {
+            this.spawnRider()
+        })
+
+        //add wall collider
         this.physics.add.collider(this.cowboy, bounds)
     }
+
+    //add a new rider method
+    spawnRider() {
+        let xspawn = Phaser.Math.Between(130, 488)
+        let rider = new enemyRider(this, xspawn, -150, 'enemyrider', 0, 100).setOrigin(0.5, 0)
+        console.log(xspawn)
+        this.enemyGroup.add(rider)
+    } 
 
     update() {
         //move map
