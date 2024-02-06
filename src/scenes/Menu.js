@@ -6,6 +6,7 @@ class Menu extends Phaser.Scene {
     preload() {
         this.load.image('cowboy', './assets/cowboy.png')
         this.load.image('desert', './assets/desert.png')
+        this.load.image('box', './assets/box.png')
     }
 
     create() {

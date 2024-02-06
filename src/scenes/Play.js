@@ -4,7 +4,7 @@ class Play extends Phaser.Scene {
     }
 
     init() {
-        this.PLAYER_VELOCITY = 350
+        this.PLAYER_VELOCITY = 700
     }
 
     create() {
@@ -16,11 +16,22 @@ class Play extends Phaser.Scene {
         this.desert = this.add.tileSprite(0, 0, 640, 960, 'desert').setOrigin(0,0)
 
         //path bounding boxes
-        let side1 = this.physics.add.sprite()
+        this.side1 = this.physics.add.sprite(60, 300, 'box')
+        this.side1.body.setImmovable(true)
+        this.side2 = this.physics.add.sprite(580, 300, 'box')
+        this.side2.body.setImmovable(true)
 
-        //player sprite
+        //create group
+        let bounds = [this.side1, this.side2]
+        
+        //player spritedad
         this.cowboy = new Player(this, game.config.height / 2, (3* game.config.width / 4), 'cowboy', 0).setOrigin(0.5, 0)
         this.cowboy.setScale(2.5)
+        this.cowboy.body.setAllowDrag(true)
+        this.cowboy.body.setDragX(1000)
+
+        //add collider
+        this.physics.add.collider(this.cowboy, bounds)
     }
 
     update() {
@@ -36,10 +47,14 @@ class Play extends Phaser.Scene {
             playerVector.x = -1
             playerDirection = 'left'
         }
-        if(cursors.right.isDown) {
+        else if(cursors.right.isDown) {
             console.log('right is down')
             playerVector.x = 1
             playerDirection = 'right'
+        }
+        else {
+            playerVector.x = 0
+            playerDirection = 'idle'
         }
 
         //no up and down
@@ -49,7 +64,7 @@ class Play extends Phaser.Scene {
         playerVector.normalize()
 
         //apply velocity
-        this.cowboy.setVelocity(this.PLAYER_VELOCITY * playerVector.x, this.PLAYER_VELOCITY * playerVector.y)
+        this.cowboy.setAcceleration(this.PLAYER_VELOCITY * playerVector.x, this.PLAYER_VELOCITY * playerVector.y)
 
     }
 } 
