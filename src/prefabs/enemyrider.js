@@ -6,6 +6,7 @@ class enemyRider extends Phaser.Physics.Arcade.Sprite {
 
         //properties
         this.setImmovable()
+        this.setSize(19, 48)
         this.setScale(2.5)
         this.parentScene = scene
 
@@ -29,6 +30,13 @@ class enemyRider extends Phaser.Physics.Arcade.Sprite {
 
         if(this.y > game.config.height) {
             this.destroy()
+        }
+
+        if(Play.GAME_OVER == true) {
+            this.setVelocityY(-this.movespeed * 2)
+            setTimeout(() => {
+                this.destroy()
+            }, 2000)
         }
     }
 }

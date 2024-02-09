@@ -4,7 +4,8 @@ class Play extends Phaser.Scene {
     }
 
     init() {
-        this.PLAYER_VELOCITY = 700
+        this.GAME_OVER = false
+        this.HIGH_NOON = false
     }
 
     create() {
@@ -16,20 +17,17 @@ class Play extends Phaser.Scene {
         //tile map
         this.desert = this.add.tileSprite(0, 0, 640, 960, 'desert').setOrigin(0,0)
 
-        //path bounding boxes
-        this.side1 = this.physics.add.sprite(60, 300, 'box')
-        this.side1.body.setImmovable(true)
-        this.side2 = this.physics.add.sprite(580, 300, 'box')
-        this.side2.body.setImmovable(true)
+        //set world bounds
+        this.physics.world.setBounds(120, 0, 400, 680)
 
-        //create group
-        let bounds = [this.side1, this.side2]
         
         //player sprite
         this.cowboy = new Player(this, game.config.height / 2, (3* game.config.width / 4), 'cowboy', 0).setOrigin(0.5, 0)
+        this.cowboy.setSize(20, 46)
         this.cowboy.setScale(2.5)
         this.cowboy.body.setAllowDrag(true)
         this.cowboy.body.setDragX(1000)
+        this.cowboy.setDepth(10)
 
         //group enemies for collider
         this.enemyGroup = this.add.group({
@@ -41,8 +39,14 @@ class Play extends Phaser.Scene {
             this.spawnRider()
         })
 
-        //add wall collider
-        this.physics.add.collider(this.cowboy, bounds)
+        //add enemy collider
+        this.physics.add.collider(this.cowboy, this.enemyGroup, this.HorseCollide, (player, enemy) => {
+            if(player.collided) {
+                return false
+            } else {
+                return true
+            }
+        })
     }
 
     //add a new rider method
@@ -54,36 +58,36 @@ class Play extends Phaser.Scene {
     } 
 
     update() {
-        //move map
-        this.desert.tilePositionY -= speed
-        let playerDirection = 'forward'
-
-        //move player
-        let playerVector = new Phaser.Math.Vector2(0, 0)
-        //left and right
-        if(cursors.left.isDown) {
-            console.log('left is down')
-            playerVector.x = -1
-            playerDirection = 'left'
+        
+        if(this.GAME_OVER == true) {
+            
+        } else {
+            
+            //move map
+            this.desert.tilePositionY -= speed
+        
+            //update player
+            this.cowboy.update()
+        
         }
-        else if(cursors.right.isDown) {
-            console.log('right is down')
-            playerVector.x = 1
-            playerDirection = 'right'
+
+    }
+
+    HorseCollide(player, enemy) {
+        console.log("Collison Detected")
+        player.collided = true
+        setTimeout(() => {
+            player.collided = false
+            player.play('cowboy_idle', true)
+        }, 3000)
+        player.hp -= 1
+        console.log(`Current HP: ${player.hp}`)
+        if (player.hp < 1) {
+            Play.GAME_OVER = true
+            console.log("GAME OVER")
         }
         else {
-            playerVector.x = 0
-            playerDirection = 'idle'
+            player.play('player_damage', true)
         }
-
-        //no up and down
-        playerVector.y = 0
-
-        //normalize
-        playerVector.normalize()
-
-        //apply velocity
-        this.cowboy.setAcceleration(this.PLAYER_VELOCITY * playerVector.x, this.PLAYER_VELOCITY * playerVector.y)
-
     }
 } 
