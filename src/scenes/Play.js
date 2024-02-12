@@ -6,6 +6,7 @@ class Play extends Phaser.Scene {
     init() {
         this.GAME_OVER = false
         this.HIGH_NOON = false
+        this.RIDERS_PASSED = 0
     }
 
     create() {
@@ -52,15 +53,17 @@ class Play extends Phaser.Scene {
     //add a new rider method
     spawnRider() {
         let xspawn = Phaser.Math.Between(130, 488)
-        let rider = new enemyRider(this, xspawn, -150, 'enemyrider', 0, 100).setOrigin(0.5, 0)
+        let rider = new enemyRider(this, xspawn, -150, 'enemyrider', 0, (speed * 40)).setOrigin(0.5, 0)
         console.log(xspawn)
         this.enemyGroup.add(rider)
     } 
 
     update() {
-        
-        if(this.GAME_OVER == true) {
-            
+        if(Play.GAME_OVER == true) {
+            this.cowboy.body.stop()
+            setTimeout(() => {
+                this.scene.start('gameOverScene')
+            }, 3000)
         } else {
             
             //move map
@@ -68,7 +71,7 @@ class Play extends Phaser.Scene {
         
             //update player
             this.cowboy.update()
-        
+
         }
 
     }

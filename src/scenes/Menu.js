@@ -39,13 +39,15 @@ class Menu extends Phaser.Scene {
         this.anims.create({
             key: 'cowboy_left',
             frames: this.anims.generateFrameNumbers('cowboy-lean', {start: 0, end: 2, first: 0}),
-            frameRate: 5
+            frameRate: 5,
+            repeat: 0
         })
 
         this.anims.create({
             key: 'cowboy_right',
             frames: this.anims.generateFrameNumbers('cowboy-lean', {start: 3, end: 5, first: 3}),
-            frameRate: 5
+            frameRate: 5,
+            repeat: 0
         })
 
         this.anims.create({

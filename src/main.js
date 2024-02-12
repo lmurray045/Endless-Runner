@@ -27,7 +27,9 @@ let game = new Phaser.Game(config)
 let cursors
 
 //set global speeds
-let speed = 4
+let speed = 7
+
+let max_speed = 20
 
 //set UI sizes
 let borderUISize = game.config.height / 15
