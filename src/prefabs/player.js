@@ -8,7 +8,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.setCollideWorldBounds(true)
         
         //add attributes
-        this.hp = 3
+        this.hp = 1
         this.PLAYER_VELOCITY = 700
         this.collided = false
     }
@@ -42,7 +42,13 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.setAcceleration(this.PLAYER_VELOCITY * playerVector.x, this.PLAYER_VELOCITY * playerVector.y)
 
         //play animation
-        //cursors.left.onDown(this.play(`cowboy_${playerDirection}`, true))
-        //cursors.right.onDown(this.play(`cowboy_${playerDirection}`, true))
+        if(Phaser.Input.Keyboard.JustDown(cursors.left) || Phaser.Input.Keyboard.JustDown(cursors.right)) {
+            this.play(`cowboy_${playerDirection}`, true)
+        }
+
+        //idle on release
+        if(Phaser.Input.Keyboard.JustUp(cursors.left) || Phaser.Input.Keyboard.JustUp(cursors.right)) {
+            this.play(`cowboy_idle`, true)
+        }
     }
 }
