@@ -22,6 +22,13 @@ class Menu extends Phaser.Scene {
             startFrame: 0,
             endFrame: 5
         })
+
+        this.load.spritesheet('cowboy-death', './assets/cowboydeath.png', {
+            frameWidth: 66,
+            frameHeight: 48,
+            startFrame: 0,
+            endFrame: 10
+        })
     }
 
     create() {
@@ -54,6 +61,12 @@ class Menu extends Phaser.Scene {
             key: 'cowboy_idle',
             frames: this.anims.generateFrameNumbers('cowboy-lean', {start: 0, end: 0, first: 0}),
             frameRate: 5
+        })
+
+        this.anims.create({
+            key: 'cowboy_death',
+            frames: this.anims.generateFrameNumbers('cowboy-death', {start: 0, end: 10, first: 0}),
+            frameRate: 10
         })
     }
 

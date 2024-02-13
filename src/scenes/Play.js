@@ -76,7 +76,7 @@ class Play extends Phaser.Scene {
             Play.PASS = true
 
             //play anim
-             
+            this.cowboy.play('cowboy_death', true)
 
             //take shot for game over
             setTimeout(() => {
