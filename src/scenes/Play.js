@@ -14,7 +14,10 @@ class Play extends Phaser.Scene {
         //reset parameters
         Play.GAME_OVER = false
         Play.RIDERS_PASSED = 0
+        Play.RIDER_DIVISOR = 5
         Play.PASS = false
+
+        speed = 7
 
         //key binds
         cursors = this.input.keyboard.createCursorKeys()
@@ -33,6 +36,9 @@ class Play extends Phaser.Scene {
         this.cowboy.body.setAllowDrag(true)
         this.cowboy.body.setDragX(1000)
         this.cowboy.setDepth(10)
+
+        this.hearts = this.add.sprite(0, 0, 'health', 0).setOrigin(0)
+        this.hearts.setScale(3)
 
         //group enemies for collider
         this.enemyGroup = this.add.group({
@@ -66,7 +72,7 @@ class Play extends Phaser.Scene {
 
         if(Play.PASS == true) { //explanation: this flag exists because even though game over stops play flow, 
                                //it will call the timeout gameover scene multiple times. Thus, this exists to stop
-        }                      //play flow w/o multiple function calls
+        }                      //play flow and prevent multiple timeout calls
         //check game over
         else if(Play.GAME_OVER == true) {
             //stop movement
@@ -75,8 +81,9 @@ class Play extends Phaser.Scene {
             //stop gameplay
             Play.PASS = true
 
-            //play anim
+            //play anims
             this.cowboy.play('cowboy_death', true)
+            this.hearts.play('health_0')
 
             //take shot for game over
             setTimeout(() => {
@@ -111,6 +118,9 @@ class Play extends Phaser.Scene {
             //update player
             this.cowboy.update()
 
+            //update hearts
+            this.hearts.play(`health_${this.cowboy.hp}`,)
+
         }
 
     }
@@ -129,7 +139,7 @@ class Play extends Phaser.Scene {
             console.log("GAME OVER")
         }
         else {
-            player.play('player_damage', true)
+            player.play('player_damage')
         }
     }
 } 

@@ -1,5 +1,5 @@
 //Liam Murray
-//Working Title
+//High Noon
 //Description:
     //an endless cowboy themed runner!
     //rob the bank! Ride your horse! Shoot 'em dead!
@@ -25,6 +25,8 @@ let config = {
 let game = new Phaser.Game(config)
 
 let cursors
+
+let loaded = false
 
 //set global speeds
 let speed = 7

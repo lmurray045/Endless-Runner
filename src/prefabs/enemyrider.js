@@ -32,9 +32,10 @@ class enemyRider extends Phaser.Physics.Arcade.Sprite {
             this.destroy()
             Play.RIDERS_PASSED += 1
 
-            if(Play.RIDERS_PASSED % 5 == 0 && Play.RIDERS_PASSED > 4) {
+            if(Play.RIDERS_PASSED % Play.RIDER_DIVISOR == 0 && Play.RIDERS_PASSED > 4) {
                 if (speed < max_speed) {
                     speed += 1
+                    Play.RIDER_DIVISOR += speed
                 }
                 console.log(`Speed Up! Current speed: ${speed}`)
             }

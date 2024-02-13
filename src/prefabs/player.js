@@ -8,7 +8,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.setCollideWorldBounds(true)
         
         //add attributes
-        this.hp = 1
+        this.hp = 3
         this.PLAYER_VELOCITY = 700
         this.collided = false
     }

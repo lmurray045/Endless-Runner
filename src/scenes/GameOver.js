@@ -17,6 +17,8 @@ class GameOver extends Phaser.Scene {
         } else {
             console.log('texture error');
         }
+
+        this.gameover = this.add.tileSprite(0, 0, 640, 960, 'gameover').setOrigin(0,0)
     }
 
     update() {
