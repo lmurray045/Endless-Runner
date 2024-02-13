@@ -16,6 +16,7 @@ class Play extends Phaser.Scene {
         Play.RIDERS_PASSED = 0
         Play.RIDER_DIVISOR = 5
         Play.PASS = false
+        Play.SCORE = 0
 
         speed = 7
 
@@ -37,8 +38,16 @@ class Play extends Phaser.Scene {
         this.cowboy.body.setDragX(1000)
         this.cowboy.setDepth(10)
 
+        //hearts
         this.hearts = this.add.sprite(0, 0, 'health', 0).setOrigin(0)
         this.hearts.setScale(3)
+
+        //score
+        this.digit1 = this.add.sprite(572, 0, 'numbers', 0).setOrigin(0).setScale(.75)
+        this.digit2 = this.add.sprite(518, 0, 'numbers', 0).setOrigin(0).setScale(.75)
+        this.digit3 = this.add.sprite(464, 0, 'numbers', 0).setOrigin(0).setScale(.75)
+        this.digit4 = this.add.sprite(410, 0, 'numbers', 0).setOrigin(0).setScale(.75)
+        this.digit5 = this.add.sprite(356, 0, 'numbers', 0).setOrigin(0).setScale(.75)
 
         //group enemies for collider
         this.enemyGroup = this.add.group({
@@ -85,6 +94,11 @@ class Play extends Phaser.Scene {
             this.cowboy.play('cowboy_death', true)
             this.hearts.play('health_0')
 
+            //handle max score
+            if(highscore < Play.SCORE) {
+                highscore = Play.SCORE
+            }
+
             //take shot for game over
             setTimeout(() => {
                 //CITATION: This screen shot code is ripped directly from nathans paddle parkour
@@ -121,6 +135,8 @@ class Play extends Phaser.Scene {
             //update hearts
             this.hearts.play(`health_${this.cowboy.hp}`,)
 
+            //update score
+            this.updateScore()
         }
 
     }
@@ -139,7 +155,20 @@ class Play extends Phaser.Scene {
             console.log("GAME OVER")
         }
         else {
-            player.play('player_damage')
+            player.tint = 0xFF0000
+            setTimeout(() => {
+                player.tint = 0xFFFFFF
+            }, 3000)
         }
+    }
+
+    updateScore() {
+        let nums = `00000${Play.SCORE}`
+        
+        this.digit1.setTexture('numbers', nums[nums.length - 1])
+        this.digit2.setTexture('numbers', nums[nums.length - 2])
+        this.digit3.setTexture('numbers', nums[nums.length - 3])
+        this.digit4.setTexture('numbers', nums[nums.length - 4])
+        this.digit5.setTexture('numbers', nums[nums.length - 5])
     }
 } 

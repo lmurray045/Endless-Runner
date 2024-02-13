@@ -14,7 +14,7 @@ let config = {
     physics: {
         default: 'arcade',
         arcade: {
-            debug: true
+            //debug: true
         }
     },
     width: 640,
@@ -27,6 +27,8 @@ let game = new Phaser.Game(config)
 let cursors
 
 let loaded = false
+
+let highscore = 0
 
 //set global speeds
 let speed = 7

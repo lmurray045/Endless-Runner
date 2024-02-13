@@ -4,6 +4,11 @@ class Load extends Phaser.Scene {
     }
 
     preload() {
+        //loading bar
+        //CITATION: This codes inspiriation was taken from Nathans Paddle Parkour
+        //let loadingBar = this.add
+
+
         this.load.image('cowboy', './assets/cowboy.png')
         this.load.image('desert', './assets/desert.png')
         this.load.image('box', './assets/box.png')
