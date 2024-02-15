@@ -8,13 +8,17 @@ class Load extends Phaser.Scene {
         //CITATION: This codes inspiriation was taken from Nathans Paddle Parkour
         //let loadingBar = this.add
 
-
+        //images
         this.load.image('cowboy', './assets/cowboy.png')
         this.load.image('desert', './assets/desert.png')
         this.load.image('box', './assets/box.png')
         this.load.image('enemyrider', './assets/enemyrider.png')
         this.load.image('gameover', './assets/GameOver.png')
         this.load.image('title', './assets/Title.png')
+        this.load.image('speedup', './assets/speedup.png')
+        this.load.image('arrows', './assets/arrows.png')
+        
+
 
         this.load.spritesheet('cowboy_hurt', './assets/cowboy_hurt.png', {
             frameWidth: 24,
@@ -43,10 +47,29 @@ class Load extends Phaser.Scene {
             startFrame: 0,
             endFrame: 3
         })
+
+        //audio
+        //sound effects
+        this.load.audio('death', './assets/death.wav')
+        this.load.audio('hurt', './assets/hurt.wav')
+        this.load.audio('speedup', './assets/speedup.wav')
+        
+        //music
+        this.load.audio({
+            key: 'playloop',
+            url: './assets/playloop.mp3',
+            loop: true
+        })
+        this.load.audio({
+            key: 'deathloop',
+            url: './assets/deathloop.mp3',
+            loop: true
+        })
+        
     }
 
     create() {
-        console.log("Load Scene")
+        //console.log("Load Scene")
         //animations
         this.anims.create({
             key: 'player_damage',

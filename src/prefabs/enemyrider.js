@@ -38,8 +38,9 @@ class enemyRider extends Phaser.Physics.Arcade.Sprite {
                     speed += 1
                     Play.RIDER_DIVISOR += speed
                 }
-                console.log(`Speed Up! Current speed: ${speed}`)
+                //console.log(`Speed Up! Current speed: ${speed}`)
                 Play.SCORE += (speed * 5)
+                game.sound.play('speedup')
             }
         }
 

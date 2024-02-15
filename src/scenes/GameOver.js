@@ -4,7 +4,9 @@ class GameOver extends Phaser.Scene {
     }
 
     create() {
-        console.log("GameOver Scene")
+        //console.log("GameOver Scene")
+
+        this.sound.play('deathloop')
 
         //inputs
         this.RKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R)
@@ -18,7 +20,7 @@ class GameOver extends Phaser.Scene {
             console.log('texture error');
         }
 
-        this.gameover = this.add.tileSprite(0, 0, 640, 960, 'gameover').setOrigin(0,0)
+        this.gameover = this.add.image(0, 0, 'gameover').setOrigin(0,0)
     }
 
     update() {

@@ -10,8 +10,9 @@ class Play extends Phaser.Scene {
     }
 
     create() {
-        console.log("play scene")
+        //console.log("play scene")
         //reset parameters
+        this.sound.stopAll()
         Play.GAME_OVER = false
         Play.RIDERS_PASSED = 0
         Play.RIDER_DIVISOR = 5
@@ -19,6 +20,9 @@ class Play extends Phaser.Scene {
         Play.SCORE = 0
 
         speed = 7
+
+
+        this.sound.play('playloop')
 
         //key binds
         cursors = this.input.keyboard.createCursorKeys()
@@ -29,6 +33,15 @@ class Play extends Phaser.Scene {
         //set world bounds
         this.physics.world.setBounds(120, 0, 400, 680)
 
+        //show arrows
+        if(loaded == false) {
+            this.tutorial = this.add.sprite(0, 0, 'arrows').setOrigin(0, 0)
+            this.time.delayedCall(2000, () => {
+                this.tutorial.destroy()
+            })
+        }
+
+        loaded = true
         
         //player sprite
         this.cowboy = new Player(this, game.config.height / 2, (3* game.config.width / 4), 'cowboy', 0).setOrigin(0.5, 0)
@@ -73,7 +86,6 @@ class Play extends Phaser.Scene {
     spawnRider() {
         let xspawn = Phaser.Math.Between(130, 488)
         let rider = new enemyRider(this, xspawn, -150, 'enemyrider', 0, (speed * 40)).setOrigin(0.5, 0)
-        console.log(xspawn)
         this.enemyGroup.add(rider)
     } 
 
@@ -86,6 +98,7 @@ class Play extends Phaser.Scene {
         else if(Play.GAME_OVER == true) {
             //stop movement
             this.cowboy.body.stop()
+            this.sound.stopAll()
 
             //stop gameplay
             Play.PASS = true
@@ -93,6 +106,7 @@ class Play extends Phaser.Scene {
             //play anims
             this.cowboy.play('cowboy_death', true)
             this.hearts.play('health_0')
+            this.sound.play('death')
 
             //handle max score
             if(highscore < Play.SCORE) {
@@ -127,7 +141,7 @@ class Play extends Phaser.Scene {
         else {
             
             //move map
-            this.desert.tilePositionY -= speed
+            this.desert.tilePositionY -= speed * 2
         
             //update player
             this.cowboy.update()
@@ -142,17 +156,16 @@ class Play extends Phaser.Scene {
     }
 
     HorseCollide(player, enemy) {
-        console.log("Collison Detected")
         player.collided = true
         setTimeout(() => {
             player.collided = false
             player.play('cowboy_idle', true)
         }, 3000)
         player.hp -= 1
-        console.log(`Current HP: ${player.hp}`)
+        game.sound.play('hurt')
         if (player.hp < 1) {
             Play.GAME_OVER = true
-            console.log("GAME OVER")
+            //console.log("GAME OVER")
         }
         else {
             player.tint = 0xFF0000
